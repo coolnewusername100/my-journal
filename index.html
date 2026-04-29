@@ -28,10 +28,100 @@
       background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8bfaa' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
 
+    /* ── Login screen ───────────────────────────────────────────── */
+    #login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      margin: -40px -20px;
+    }
+
+    .login-box {
+      background: var(--paper);
+      border-radius: 2px;
+      padding: 48px 40px;
+      box-shadow: 0 4px 32px var(--shadow), 0 0 0 1px var(--line);
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .login-box h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .login-box h1 span { color: var(--accent); font-style: italic; }
+
+    .login-box p {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 32px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      color: var(--ink);
+      border-radius: 1px;
+      outline: none;
+      text-align: center;
+      letter-spacing: 0.1em;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+
+    .login-box input:focus { border-color: var(--accent); }
+
+    .login-box button {
+      width: 100%;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      padding: 12px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 1px;
+      transition: background 0.2s;
+    }
+
+    .login-box button:hover { background: var(--accent); }
+
+    #login-error {
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-top: 12px;
+      font-style: italic;
+      min-height: 20px;
+    }
+
+    /* ── Main app ───────────────────────────────────────────────── */
+    #app { display: none; }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
     header {
       text-align: center;
       margin-bottom: 48px;
       animation: fadeDown 0.8s ease both;
+      position: relative;
     }
 
     header h1 {
@@ -39,13 +129,9 @@
       font-size: clamp(2rem, 6vw, 3.5rem);
       font-weight: 400;
       letter-spacing: 0.02em;
-      color: var(--ink);
     }
 
-    header h1 span {
-      color: var(--accent);
-      font-style: italic;
-    }
+    header h1 span { color: var(--accent); font-style: italic; }
 
     header p {
       margin-top: 8px;
@@ -55,102 +141,26 @@
       color: var(--ink-light);
     }
 
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-
-    /* Write area */
-    .write-section {
-      background: var(--paper);
-      border-radius: 2px;
-      padding: 32px;
-      box-shadow: 0 2px 20px var(--shadow), 0 0 0 1px var(--line);
-      margin-bottom: 40px;
-      animation: fadeUp 0.8s ease 0.1s both;
-      position: relative;
-    }
-
-    .write-section::before {
-      content: '';
+    #logout-btn {
       position: absolute;
-      top: 0; left: 48px;
-      width: 1px; height: 100%;
-      background: #f0c8b0;
-      opacity: 0.5;
-      border-radius: 1px;
-    }
-
-    .write-section label {
-      display: block;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+      right: 0; top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: 1px solid var(--line);
       color: var(--ink-light);
-      margin-bottom: 12px;
-    }
-
-    #entry-input {
-      width: 100%;
-      min-height: 180px;
-      border: none;
-      background: transparent;
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      line-height: 1.9;
-      color: var(--ink);
-      resize: vertical;
-      outline: none;
-      padding-left: 8px;
-    }
-
-    #entry-input::placeholder {
-      color: #c8bfaa;
-      font-style: italic;
-    }
-
-    .write-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid var(--line);
-    }
-
-    #char-count {
-      font-size: 0.8rem;
-      color: var(--ink-light);
-    }
-
-    #save-btn {
-      background: var(--ink);
-      color: var(--paper);
-      border: none;
-      padding: 10px 28px;
+      padding: 6px 14px;
       font-family: 'Lato', sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.2em;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       cursor: pointer;
       border-radius: 1px;
-      transition: background 0.2s, transform 0.1s;
+      transition: all 0.2s;
     }
 
-    #save-btn:hover { background: var(--accent); }
-    #save-btn:active { transform: scale(0.97); }
-    #save-btn:disabled { background: var(--ink-light); cursor: not-allowed; }
+    #logout-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-    #status-msg {
-      font-size: 0.8rem;
-      color: var(--accent);
-      min-height: 20px;
-      text-align: center;
-      margin-top: 10px;
-      font-style: italic;
-    }
-
-    /* Config panel */
+    /* Config banner */
     .config-banner {
       background: #fff8f0;
       border: 1px solid #f0c8b0;
@@ -167,7 +177,6 @@
     }
 
     .config-banner p strong { color: var(--accent); }
-
     .config-fields { display: flex; flex-direction: column; gap: 10px; }
 
     .config-fields input {
@@ -202,7 +211,90 @@
 
     .config-fields button:hover { opacity: 0.85; }
 
-    /* Entries list */
+    /* Write section */
+    .write-section {
+      background: var(--paper);
+      border-radius: 2px;
+      padding: 32px;
+      box-shadow: 0 2px 20px var(--shadow), 0 0 0 1px var(--line);
+      margin-bottom: 40px;
+      animation: fadeUp 0.8s ease 0.1s both;
+      position: relative;
+    }
+
+    .write-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 48px;
+      width: 1px; height: 100%;
+      background: #f0c8b0;
+      opacity: 0.5;
+    }
+
+    .write-section label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 12px;
+    }
+
+    #entry-input {
+      width: 100%;
+      min-height: 180px;
+      border: none;
+      background: transparent;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: var(--ink);
+      resize: vertical;
+      outline: none;
+      padding-left: 8px;
+    }
+
+    #entry-input::placeholder { color: #c8bfaa; font-style: italic; }
+
+    .write-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    #char-count { font-size: 0.8rem; color: var(--ink-light); }
+
+    #save-btn {
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      padding: 10px 28px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 1px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    #save-btn:hover { background: var(--accent); }
+    #save-btn:active { transform: scale(0.97); }
+    #save-btn:disabled { background: var(--ink-light); cursor: not-allowed; }
+
+    #status-msg {
+      font-size: 0.8rem;
+      color: var(--accent);
+      min-height: 20px;
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    /* Entries */
     .entries-header {
       display: flex;
       align-items: baseline;
@@ -215,7 +307,6 @@
       font-family: 'Playfair Display', serif;
       font-weight: 400;
       font-size: 1.3rem;
-      color: var(--ink);
     }
 
     .entries-header span {
@@ -225,11 +316,7 @@
       color: var(--ink-light);
     }
 
-    .entries-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+    .entries-list { display: flex; flex-direction: column; gap: 16px; }
 
     .entry-card {
       background: var(--paper);
@@ -287,7 +374,6 @@
       color: var(--ink-light);
       font-style: italic;
       font-family: 'Playfair Display', serif;
-      font-size: 1rem;
     }
 
     .loading {
@@ -311,52 +397,103 @@
     @media (max-width: 500px) {
       .write-section { padding: 20px 16px; }
       .write-section::before { display: none; }
+      .login-box { padding: 36px 24px; }
+      #logout-btn { position: static; transform: none; margin-top: 8px; }
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-
-  <header>
-    <h1>My <span>Journal</span></h1>
-    <p>Personal thoughts &amp; notes</p>
-  </header>
-
-  <!-- Config banner — shown until keys are saved -->
-  <div class="config-banner" id="config-banner">
-    <p><strong>One-time setup:</strong> paste your Supabase URL and Anon Key below, then click Save. You only need to do this once.</p>
-    <div class="config-fields">
-      <input type="text" id="cfg-url"  placeholder="Supabase URL  (https://xxxxxx.supabase.co)" />
-      <input type="text" id="cfg-key"  placeholder="Anon public key  (eyJhbGci...)" />
-      <button onclick="saveConfig()">Save &amp; Connect</button>
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen">
+    <div class="login-box">
+      <h1>My <span>Journal</span></h1>
+      <p>Personal thoughts &amp; notes</p>
+      <input type="password" id="password-input" placeholder="Enter your password" onkeydown="if(event.key==='Enter')tryLogin()"/>
+      <button onclick="tryLogin()">Unlock Journal</button>
+      <div id="login-error"></div>
     </div>
   </div>
 
-  <!-- Write -->
-  <div class="write-section">
-    <label>New entry</label>
-    <textarea id="entry-input" placeholder="What's on your mind today…"></textarea>
-    <div class="write-footer">
-      <span id="char-count">0 characters</span>
-      <button id="save-btn" onclick="saveEntry()">Save Entry</button>
+  <!-- MAIN APP -->
+  <div id="app">
+    <div class="container">
+
+      <header>
+        <h1>My <span>Journal</span></h1>
+        <p>Personal thoughts &amp; notes</p>
+        <button id="logout-btn" onclick="logout()">Lock</button>
+      </header>
+
+      <!-- Supabase config — shown until keys saved -->
+      <div class="config-banner" id="config-banner">
+        <p><strong>One-time setup:</strong> paste your Supabase URL and Anon Key below. You only need to do this once per device.</p>
+        <div class="config-fields">
+          <input type="text" id="cfg-url" placeholder="Supabase URL  (https://xxxxxx.supabase.co)" />
+          <input type="text" id="cfg-key" placeholder="Anon public key  (eyJhbGci...)" />
+          <button onclick="saveConfig()">Save &amp; Connect</button>
+        </div>
+      </div>
+
+      <!-- Write -->
+      <div class="write-section">
+        <label>New entry</label>
+        <textarea id="entry-input" placeholder="What's on your mind today…"></textarea>
+        <div class="write-footer">
+          <span id="char-count">0 characters</span>
+          <button id="save-btn" onclick="saveEntry()">Save Entry</button>
+        </div>
+        <div id="status-msg"></div>
+      </div>
+
+      <!-- Past entries -->
+      <div class="entries-header">
+        <h2>Past Entries</h2>
+        <span id="entry-count"></span>
+      </div>
+      <div class="entries-list" id="entries-list">
+        <div class="loading">Loading your entries…</div>
+      </div>
+
     </div>
-    <div id="status-msg"></div>
   </div>
-
-  <!-- Past entries -->
-  <div class="entries-header">
-    <h2>Past Entries</h2>
-    <span id="entry-count"></span>
-  </div>
-  <div class="entries-list" id="entries-list">
-    <div class="loading">Loading your entries…</div>
-  </div>
-
-</div>
 
 <script>
-  // ── Config (stored in localStorage) ──────────────────────────────
+  // ── Password ──────────────────────────────────────────────────────
+  const PASSWORD = 'Supercool123';
+
+  function tryLogin() {
+    const val = document.getElementById('password-input').value;
+    if (val === PASSWORD) {
+      sessionStorage.setItem('journal_unlocked', 'yes');
+      showApp();
+    } else {
+      document.getElementById('login-error').textContent = 'Wrong password — try again.';
+      document.getElementById('password-input').value = '';
+      document.getElementById('password-input').focus();
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('journal_unlocked');
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('password-input').value = '';
+  }
+
+  function showApp() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    if (SUPABASE_URL && SUPABASE_KEY) {
+      document.getElementById('config-banner').style.display = 'none';
+    }
+    loadEntries();
+  }
+
+  // Check if already unlocked this session
+  if (sessionStorage.getItem('journal_unlocked') === 'yes') showApp();
+
+  // ── Supabase config ───────────────────────────────────────────────
   let SUPABASE_URL = localStorage.getItem('sb_url') || '';
   let SUPABASE_KEY = localStorage.getItem('sb_key') || '';
 
@@ -370,11 +507,6 @@
     SUPABASE_KEY = key;
     document.getElementById('config-banner').style.display = 'none';
     loadEntries();
-  }
-
-  // Hide config banner if already configured
-  if (SUPABASE_URL && SUPABASE_KEY) {
-    document.getElementById('config-banner').style.display = 'none';
   }
 
   // ── Character count ───────────────────────────────────────────────
@@ -408,8 +540,7 @@
     if (!text) { setStatus('Nothing to save — write something first!', true); return; }
 
     const btn = document.getElementById('save-btn');
-    btn.disabled = true;
-    btn.textContent = 'Saving…';
+    btn.disabled = true; btn.textContent = 'Saving…';
 
     try {
       const res = await fetch(SUPABASE_URL + '/rest/v1/entries', {
@@ -417,12 +548,7 @@
         headers: { ...headers(), 'Prefer': 'return=representation' },
         body: JSON.stringify({ content: text })
       });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || res.statusText);
-      }
-
+      if (!res.ok) throw new Error((await res.json()).message || res.statusText);
       input.value = '';
       document.getElementById('char-count').textContent = '0 characters';
       setStatus('✓ Entry saved!', false);
@@ -430,35 +556,28 @@
     } catch (e) {
       setStatus('Error: ' + e.message, true);
     } finally {
-      btn.disabled = false;
-      btn.textContent = 'Save Entry';
+      btn.disabled = false; btn.textContent = 'Save Entry';
     }
   }
 
   // ── Load entries ──────────────────────────────────────────────────
   async function loadEntries() {
     if (!SUPABASE_URL || !SUPABASE_KEY) return;
-
     const list = document.getElementById('entries-list');
     list.innerHTML = '<div class="loading">Loading…</div>';
-
     try {
       const res = await fetch(
         SUPABASE_URL + '/rest/v1/entries?select=*&order=created_at.desc',
         { headers: headers() }
       );
-
       if (!res.ok) throw new Error((await res.json()).message);
       const data = await res.json();
-
       document.getElementById('entry-count').textContent =
         data.length + (data.length === 1 ? ' entry' : ' entries');
-
       if (data.length === 0) {
         list.innerHTML = '<div class="empty-state">No entries yet — write your first one above.</div>';
         return;
       }
-
       list.innerHTML = data.map((e, i) => `
         <div class="entry-card" style="animation-delay:${i * 0.05}s">
           <div class="entry-date">${formatDate(e.created_at)}</div>
@@ -466,7 +585,6 @@
           <button class="delete-btn" onclick="deleteEntry(${e.id})" title="Delete">✕</button>
         </div>
       `).join('');
-
     } catch (e) {
       list.innerHTML = `<div class="empty-state" style="color:#b5451b">Couldn't load entries: ${e.message}</div>`;
     }
@@ -477,14 +595,11 @@
     if (!confirm('Delete this entry?')) return;
     try {
       const res = await fetch(SUPABASE_URL + '/rest/v1/entries?id=eq.' + id, {
-        method: 'DELETE',
-        headers: headers()
+        method: 'DELETE', headers: headers()
       });
       if (!res.ok) throw new Error('Delete failed');
       loadEntries();
-    } catch (e) {
-      alert('Error deleting: ' + e.message);
-    }
+    } catch (e) { alert('Error deleting: ' + e.message); }
   }
 
   // ── Utilities ─────────────────────────────────────────────────────
@@ -498,9 +613,6 @@
   function escHtml(str) {
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
-
-  // ── Init ──────────────────────────────────────────────────────────
-  loadEntries();
 </script>
 </body>
 </html>
