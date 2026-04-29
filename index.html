@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Journal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f5f0e8;
+      --paper: #fdfaf4;
+      --ink: #2c2416;
+      --ink-light: #7a6e5f;
+      --accent: #b5451b;
+      --line: #e0d8c8;
+      --shadow: rgba(44, 36, 22, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      padding: 40px 20px;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8bfaa' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+
+    header h1 span {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* Write area */
+    .write-section {
+      background: var(--paper);
+      border-radius: 2px;
+      padding: 32px;
+      box-shadow: 0 2px 20px var(--shadow), 0 0 0 1px var(--line);
+      margin-bottom: 40px;
+      animation: fadeUp 0.8s ease 0.1s both;
+      position: relative;
+    }
+
+    .write-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 48px;
+      width: 1px; height: 100%;
+      background: #f0c8b0;
+      opacity: 0.5;
+      border-radius: 1px;
+    }
+
+    .write-section label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 12px;
+    }
+
+    #entry-input {
+      width: 100%;
+      min-height: 180px;
+      border: none;
+      background: transparent;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: var(--ink);
+      resize: vertical;
+      outline: none;
+      padding-left: 8px;
+    }
+
+    #entry-input::placeholder {
+      color: #c8bfaa;
+      font-style: italic;
+    }
+
+    .write-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    #char-count {
+      font-size: 0.8rem;
+      color: var(--ink-light);
+    }
+
+    #save-btn {
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      padding: 10px 28px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 1px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    #save-btn:hover { background: var(--accent); }
+    #save-btn:active { transform: scale(0.97); }
+    #save-btn:disabled { background: var(--ink-light); cursor: not-allowed; }
+
+    #status-msg {
+      font-size: 0.8rem;
+      color: var(--accent);
+      min-height: 20px;
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    /* Config panel */
+    .config-banner {
+      background: #fff8f0;
+      border: 1px solid #f0c8b0;
+      border-radius: 2px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .config-banner p {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      margin-bottom: 12px;
+    }
+
+    .config-banner p strong { color: var(--accent); }
+
+    .config-fields { display: flex; flex-direction: column; gap: 10px; }
+
+    .config-fields input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      color: var(--ink);
+      border-radius: 1px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .config-fields input:focus { border-color: var(--accent); }
+
+    .config-fields button {
+      align-self: flex-start;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 9px 24px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 1px;
+      transition: opacity 0.2s;
+    }
+
+    .config-fields button:hover { opacity: 0.85; }
+
+    /* Entries list */
+    .entries-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      animation: fadeUp 0.8s ease 0.2s both;
+    }
+
+    .entries-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: 1.3rem;
+      color: var(--ink);
+    }
+
+    .entries-header span {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    .entries-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .entry-card {
+      background: var(--paper);
+      border-radius: 2px;
+      padding: 24px 28px;
+      box-shadow: 0 1px 8px var(--shadow), 0 0 0 1px var(--line);
+      animation: fadeUp 0.5s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .entry-card::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      opacity: 0.4;
+    }
+
+    .entry-date {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 10px;
+    }
+
+    .entry-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--ink);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none;
+      border: none;
+      color: var(--line);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: color 0.2s;
+      padding: 4px;
+    }
+
+    .delete-btn:hover { color: var(--accent); }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--ink-light);
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 32px;
+      color: var(--ink-light);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 500px) {
+      .write-section { padding: 20px 16px; }
+      .write-section::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>My <span>Journal</span></h1>
+    <p>Personal thoughts &amp; notes</p>
+  </header>
+
+  <!-- Config banner — shown until keys are saved -->
+  <div class="config-banner" id="config-banner">
+    <p><strong>One-time setup:</strong> paste your Supabase URL and Anon Key below, then click Save. You only need to do this once.</p>
+    <div class="config-fields">
+      <input type="text" id="cfg-url"  placeholder="Supabase URL  (https://xxxxxx.supabase.co)" />
+      <input type="text" id="cfg-key"  placeholder="Anon public key  (eyJhbGci...)" />
+      <button onclick="saveConfig()">Save &amp; Connect</button>
+    </div>
+  </div>
+
+  <!-- Write -->
+  <div class="write-section">
+    <label>New entry</label>
+    <textarea id="entry-input" placeholder="What's on your mind today…"></textarea>
+    <div class="write-footer">
+      <span id="char-count">0 characters</span>
+      <button id="save-btn" onclick="saveEntry()">Save Entry</button>
+    </div>
+    <div id="status-msg"></div>
+  </div>
+
+  <!-- Past entries -->
+  <div class="entries-header">
+    <h2>Past Entries</h2>
+    <span id="entry-count"></span>
+  </div>
+  <div class="entries-list" id="entries-list">
+    <div class="loading">Loading your entries…</div>
+  </div>
+
+</div>
+
+<script>
+  // ── Config (stored in localStorage) ──────────────────────────────
+  let SUPABASE_URL = localStorage.getItem('sb_url') || '';
+  let SUPABASE_KEY = localStorage.getItem('sb_key') || '';
+
+  function saveConfig() {
+    const url = document.getElementById('cfg-url').value.trim().replace(/\/$/, '');
+    const key = document.getElementById('cfg-key').value.trim();
+    if (!url || !key) { alert('Please fill in both fields.'); return; }
+    localStorage.setItem('sb_url', url);
+    localStorage.setItem('sb_key', key);
+    SUPABASE_URL = url;
+    SUPABASE_KEY = key;
+    document.getElementById('config-banner').style.display = 'none';
+    loadEntries();
+  }
+
+  // Hide config banner if already configured
+  if (SUPABASE_URL && SUPABASE_KEY) {
+    document.getElementById('config-banner').style.display = 'none';
+  }
+
+  // ── Character count ───────────────────────────────────────────────
+  const input = document.getElementById('entry-input');
+  input.addEventListener('input', () => {
+    document.getElementById('char-count').textContent = input.value.length + ' characters';
+  });
+
+  // ── Helpers ───────────────────────────────────────────────────────
+  function headers() {
+    return {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY
+    };
+  }
+
+  function setStatus(msg, isError) {
+    const el = document.getElementById('status-msg');
+    el.textContent = msg;
+    el.style.color = isError ? '#b5451b' : '#5a7a4a';
+    if (msg) setTimeout(() => el.textContent = '', 3000);
+  }
+
+  // ── Save entry ────────────────────────────────────────────────────
+  async function saveEntry() {
+    if (!SUPABASE_URL || !SUPABASE_KEY) {
+      setStatus('Please set up your Supabase keys first.', true); return;
+    }
+    const text = input.value.trim();
+    if (!text) { setStatus('Nothing to save — write something first!', true); return; }
+
+    const btn = document.getElementById('save-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/entries', {
+        method: 'POST',
+        headers: { ...headers(), 'Prefer': 'return=representation' },
+        body: JSON.stringify({ content: text })
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || res.statusText);
+      }
+
+      input.value = '';
+      document.getElementById('char-count').textContent = '0 characters';
+      setStatus('✓ Entry saved!', false);
+      loadEntries();
+    } catch (e) {
+      setStatus('Error: ' + e.message, true);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Save Entry';
+    }
+  }
+
+  // ── Load entries ──────────────────────────────────────────────────
+  async function loadEntries() {
+    if (!SUPABASE_URL || !SUPABASE_KEY) return;
+
+    const list = document.getElementById('entries-list');
+    list.innerHTML = '<div class="loading">Loading…</div>';
+
+    try {
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/entries?select=*&order=created_at.desc',
+        { headers: headers() }
+      );
+
+      if (!res.ok) throw new Error((await res.json()).message);
+      const data = await res.json();
+
+      document.getElementById('entry-count').textContent =
+        data.length + (data.length === 1 ? ' entry' : ' entries');
+
+      if (data.length === 0) {
+        list.innerHTML = '<div class="empty-state">No entries yet — write your first one above.</div>';
+        return;
+      }
+
+      list.innerHTML = data.map((e, i) => `
+        <div class="entry-card" style="animation-delay:${i * 0.05}s">
+          <div class="entry-date">${formatDate(e.created_at)}</div>
+          <div class="entry-text">${escHtml(e.content)}</div>
+          <button class="delete-btn" onclick="deleteEntry(${e.id})" title="Delete">✕</button>
+        </div>
+      `).join('');
+
+    } catch (e) {
+      list.innerHTML = `<div class="empty-state" style="color:#b5451b">Couldn't load entries: ${e.message}</div>`;
+    }
+  }
+
+  // ── Delete entry ──────────────────────────────────────────────────
+  async function deleteEntry(id) {
+    if (!confirm('Delete this entry?')) return;
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/entries?id=eq.' + id, {
+        method: 'DELETE',
+        headers: headers()
+      });
+      if (!res.ok) throw new Error('Delete failed');
+      loadEntries();
+    } catch (e) {
+      alert('Error deleting: ' + e.message);
+    }
+  }
+
+  // ── Utilities ─────────────────────────────────────────────────────
+  function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
+      + '  ·  '
+      + d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────
+  loadEntries();
+</script>
+</body>
+</html>
